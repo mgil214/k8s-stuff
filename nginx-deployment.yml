@@ -2,18 +2,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  name: my-nginx
 spec:
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      app: nginx
+      app: my-nginx
   replicas: 4
   template:
     metadata:
       labels:
-        app: nginx
+        app: my-nginx
     spec:
       containers:
       - name: nginx
@@ -24,10 +24,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx
+  name: my-nginx
   namespace: default
   labels:
-    app: nginx
+    app: my-nginx
 spec:
   externalTrafficPolicy: Local
   ports:
@@ -35,7 +35,7 @@ spec:
     port: 80
     protocol: TCP
     targetPort: 80
-    nodePort: 8080
+    nodePort: 8000
   selector:
-    app: nginx
+    app: my-nginx
   type: LoadBalancer
