@@ -1,34 +1,33 @@
----
 apiVersion: v1
 kind: Pod
 metadata:
-    name: my-nginx
+  name: my-nginx
 spec:
-    containers:
-        - name: my-nginx
-        image: nginx
-        env:
-           - name: VAR1
-           valueFrom:
-               secretKeyRef:
-                   name: pdsecret
-                   key: var1
-           - name: VAR2
-           valueFrom:
-               secretKeyRef:
-                   name: pdsecret
-                   key: var2
-        volumeMounts:
-            - name: secrets
-            mountPath: "/etc/pd”
-            readOnly: true
-volumes:
-    - name: secrets
+  containers:
+  - name: my-nginx
+    image: nginx
+    env:
+      - name: VAR1
+        valueFrom:
+          secretKeyRef:
+            name: pdsecret
+            key: var1
+      - name: VAR2
+        valueFrom:
+          secretKeyRef:
+            name: pdsecret
+            key: var2
+    volumeMounts:
+      - name: secrets
+        mountPath: "/etc/pd"
+        readOnly: true
+  volumes:
+  - name: secrets
     secret:
-        secretName: pdsecret
-        defaultMode: 0400
-        items:
-            - key: var1
-            path: var1
-            - key: var2
-            path: var2
+      secretName: pdsecret
+      defaultMode: 0400
+      items:
+        - key: var1
+          path: var1
+        - key: var2
+          path: var2

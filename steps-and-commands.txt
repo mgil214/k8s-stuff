@@ -1,0 +1,20 @@
+1.
+kubectl create -f cronjob.yml
+kubectl get cronjob hello
+kubectl get jobs --watch
+pods=$(kubectl get pods --selector=job-name=<NAME> --output=jsonpath={.items[*].metadata.name})
+kubectl logs $pods
+
+
+2.
+echo -n 'foo' | base64
+echo -n 'bar' | base64
+kubectl apply -f secret.yml
+kubectl apply -f nginx-pod.yml
+
+
+
+3.
+kubectl create -f nginx-deployment.yml
+kubectl get services
+kubectl port-forward service/my-nginx 8000:80
