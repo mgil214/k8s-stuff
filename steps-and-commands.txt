@@ -1,8 +1,8 @@
 1.
 kubectl create -f cronjob.yml
-kubectl get cronjob hello
+kubectl get cronjob date
 kubectl get jobs --watch
-pods=$(kubectl get pods --selector=job-name=<NAME> --output=jsonpath={.items[*].metadata.name})
+pods=$(kubectl get pods --selector=job-name=date-1610296500 --output=jsonpath={.items[*].metadata.name})
 kubectl logs $pods
 
 
@@ -19,3 +19,18 @@ kubectl create -f nginx-deployment.yml
 kubectl get services
 kubectl create -f hpa.yml
 kubectl port-forward service/my-nginx 8000:80
+
+
+
+4.
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+helm repo add stable https://charts.helm.sh/stable
+helm install stable/prometheus-operator --generate-name
+kubectl get svc
+kubectl edit svc prometheus-operator-161029-prometheus #changed ClusterIP -> LoadBalancer
+kubectl edit svc prometheus-operator-1610297617-grafana #changed ClusterIP -> LoadBalancer
+
+kubectl port-forward service/prometheus-operator-1610297617-grafana 8001:80
+kubectl get secret prometheus-operator-1610297617-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
