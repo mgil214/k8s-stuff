@@ -17,4 +17,5 @@ kubectl apply -f nginx-pod.yml
 3.
 kubectl create -f nginx-deployment.yml
 kubectl get services
+kubectl create -f hpa.yml
 kubectl port-forward service/my-nginx 8000:80
